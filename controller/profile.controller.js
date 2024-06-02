@@ -38,12 +38,10 @@ export const editUserProfile = async (req, res) => {
     } = req.body;
   
     try {
-      // Start a transaction
       const connection = await db.getConnection();
       await connection.beginTransaction();
   
       try {
-        // Update profiles table
         await connection.query(
           `
           UPDATE profiles
@@ -53,7 +51,6 @@ export const editUserProfile = async (req, res) => {
           [umur, tanggal_lahir, nomer_telepon, spesialis, pengalaman, biografi, id_user]
         );
   
-        // Update users table
         await connection.query(
           `
           UPDATE users
@@ -63,13 +60,11 @@ export const editUserProfile = async (req, res) => {
           [nama_lengkap, jenis_kelamin, id_user]
         );
   
-        // Commit the transaction
         await connection.commit();
         connection.release();
   
         res.status(200).json({ msg: 'Profile updated successfully' });
       } catch (error) {
-        // Rollback the transaction in case of error
         await connection.rollback();
         connection.release();
         console.error('Terjadi kesalahan:', error);
