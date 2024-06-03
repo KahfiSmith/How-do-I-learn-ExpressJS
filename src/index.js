@@ -1,20 +1,39 @@
 import express from "express";
 import cors from "cors";
-import { Connection} from "../database/db.js";
-import userRouter from "../route/user.route.js";
-import profileUserRouter from "../route/profile.route.js";
+import dotenv from "dotenv";
+import userRouter from "../routes/user.route.js";
+import profileUserRouter from "../routes/profile.route.js";
+import session from "express-session";
+dotenv.config();
 
 const app = express();
+
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+      secure: 'auto',
+    },
+  })
+);
+
+app.use(
+  cors({
+    credentials: true,
+    origin: "http://localhost:3000",
+  })
+);
+
 app.use(express.json());
-app.use(cors());
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
-app.use(userRouter)
-app.use(profileUserRouter)
+
+app.use(userRouter);
+app.use(profileUserRouter);
 
 app.listen(process.env.APP_PORT, () => {
-  Connection();
   console.log(`Server is running at http://localhost:${process.env.APP_PORT}`);
 });
-
