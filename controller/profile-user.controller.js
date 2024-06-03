@@ -24,7 +24,7 @@ export const getProfileUser = async (req, res) => {
 
 export const updateProfileUser = async (req, res) => {
   const { id_user } = req.params;
-  const { nama_lengkap, jenis_kelamin, umur, tanggal_lahir, nomer_telepon } =
+  const { nama_lengkap, jenis_kelamin, tanggal_lahir, nomer_telepon } =
     req.body;
 
   try {
@@ -35,7 +35,6 @@ export const updateProfileUser = async (req, res) => {
 
     user.nama_lengkap = nama_lengkap || user.nama_lengkap;
     user.jenis_kelamin = jenis_kelamin || user.jenis_kelamin;
-    user.umur = umur || user.umur;
     user.tanggal_lahir = tanggal_lahir || user.tanggal_lahir;
     user.nomer_telepon = nomer_telepon || user.nomer_telepon;
     await user.save();
