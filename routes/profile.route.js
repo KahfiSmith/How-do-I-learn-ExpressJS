@@ -10,9 +10,9 @@ import {
 
 const router = express.Router();
 
-router.get("/profil-user/:id_user", getProfileUser);
-router.put("/profil-user-edit/:id_user", updateProfileUser);
-router.get("/profil-psikolog/:id_user", getProfilePsikolog);
-router.put("/profil-psikolog-edit/:id_user", updateProfilePsikolog);
+router.get("/profil-user/:uuid", getProfileUser);
+router.put("/profil-user-edit/:uuid", updateProfileUser);
+router.get("/profil-psikolog/:uuid", getProfilePsikolog);
+router.put("/profil-psikolog-edit/:uuid", updateProfilePsikolog);
 
 export default router;

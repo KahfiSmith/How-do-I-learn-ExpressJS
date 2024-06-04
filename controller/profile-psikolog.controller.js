@@ -1,7 +1,7 @@
 import User from "../models/users.js";
 
 export const getProfilePsikolog = async (req, res) => {
-  const { id_user } = req.params;
+  const { uuid } = req.params;
   try {
     const user = await User.findOne({
       attributes: [
@@ -11,7 +11,7 @@ export const getProfilePsikolog = async (req, res) => {
         "nomer_telepon",
         "spesialis",
       ],
-      where: { id_user },
+      where: { uuid },
     });
     if (!user) {
       return res.status(404).json({ msg: "Psikolog tidak ditemukan" });
@@ -23,12 +23,12 @@ export const getProfilePsikolog = async (req, res) => {
 };
 
 export const updateProfilePsikolog = async (req, res) => {
-    const { id_user } = req.params;
+    const { uuid } = req.params;
     const { nama_lengkap, jenis_kelamin, umur, tanggal_lahir, nomer_telepon, spesialis, pengalaman, biografi } =
       req.body;
   
     try {
-      const user = await User.findOne({ where: { id_user } });
+      const user = await User.findOne({ where: { uuid } });
       if (!user) {
         return res.status(404).json({ msg: "Pengguna tidak ditemukan" });
       }
