@@ -5,6 +5,7 @@ import userRouter from "../routes/user.route.js";
 import profileRouter from "../routes/profile.route.js";
 import path from 'path';
 import dotenv from "dotenv";
+import session from 'express-session';
 dotenv.config();
 
 const app = express();
@@ -12,6 +13,13 @@ const app = express();
 app.use(cors({
   credentials: true,
   origin: 'http://localhost:5173'
+}));
+
+app.use(session({
+  secret: process.env.SECRET_KEY,
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false } 
 }));
 
 app.use(express.json());

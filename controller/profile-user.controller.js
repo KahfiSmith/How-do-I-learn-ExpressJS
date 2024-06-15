@@ -24,28 +24,46 @@ export const getUserProfile = async (req, res) => {
 export const updateUserProfile = async (req, res) => {
   const { uuid } = req.params;
   const { nama_lengkap, jenis_kelamin, umur, tanggal_lahir } = req.body;
-  
+
   const updates = [];
-  if (nama_lengkap) updates.push(`nama_lengkap = '${nama_lengkap}'`);
-  if (jenis_kelamin) updates.push(`jenis_kelamin = '${jenis_kelamin}'`);
-  if (umur) updates.push(`umur = ${umur}`);
-  if (tanggal_lahir) updates.push(`tanggal_lahir = '${tanggal_lahir}'`);
+  const values = [];
+
+  if (nama_lengkap) {
+    updates.push(`nama_lengkap = ?`);
+    values.push(nama_lengkap);
+  }
+  if (jenis_kelamin) {
+    updates.push(`jenis_kelamin = ?`);
+    values.push(jenis_kelamin);
+  }
+  if (umur) {
+    updates.push(`umur = ?`);
+    values.push(umur);
+  }
+  if (tanggal_lahir) {
+    updates.push(`tanggal_lahir = ?`);
+    values.push(tanggal_lahir);
+  }
 
   const updateString = updates.join(', ');
+  values.push(uuid); 
 
-  try {
-    const result = await query(
-      `UPDATE users SET ${updateString} WHERE uuid = ?`,
-      [uuid]
-    );
-    if (result.affectedRows > 0) {
-      res.status(200).json({ msg: "Profil berhasil diperbarui" });
-    } else {
-      res.status(404).json({ msg: "Data tidak ditemukan" });
+  if (updates.length > 0) {
+    try {
+      const result = await query(
+        `UPDATE users SET ${updateString} WHERE uuid = ?`,
+        values
+      );
+      if (result.affectedRows > 0) {
+        res.status(200).json({ msg: "Profil berhasil diperbarui" });
+      } else {
+        res.status(404).json({ msg: "Data tidak ditemukan" });
+      }
+    } catch (error) {
+      res.status(500).json({ msg: "Error saat memperbarui profil: " + error.message });
     }
-  } catch (error) {
-    res.status(500).json({ msg: error.message });
+  } else {
+    res.status(400).json({ msg: "Tidak ada data yang diperbarui" });
   }
 };
-
 
