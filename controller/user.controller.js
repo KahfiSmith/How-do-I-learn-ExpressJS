@@ -64,7 +64,7 @@ export const userLogin = async (req, res) => {
 
     req.session.userId = user.id;
 
-    return res.status(200).json({ msg: "Login berhasil", token, user });
+    return res.status(200).json({ msg: "Login berhasil", token});
   } catch (error) {
     console.log("Terjadi kesalahan:", error);
     return res.status(500).json({ msg: "Terjadi kesalahan pada server" });

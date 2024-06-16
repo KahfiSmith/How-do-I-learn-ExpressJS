@@ -4,7 +4,7 @@ export const getPsikologProfile = async (req, res) => {
   const { uuid } = req.params;
   try {
     const result = await query(
-      "SELECT nama_lengkap, spesialis, umur, nomer_telepon, biografi, pengalaman FROM users WHERE uuid = ?",
+      "SELECT nama_lengkap, spesialis, umur, nomer_telepon, biografi, pengalaman, jenis_kelamin FROM users WHERE uuid = ?",
       [uuid]
     );
     if (result.length > 0) {
