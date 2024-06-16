@@ -30,12 +30,24 @@ export const userRegistration = async (req, res) => {
   }
 };
 
+const issueToken = (user) => {
+  return jwt.sign({
+    userId: user.uuid,
+    email: user.email,
+    role: user.role,
+    nama_lengkap: user.nama_lengkap,
+    uuid: user.uuid,
+    umur: user.umur,
+    tanggal_lahir: user.tanggal_lahir,
+    nomer_telepon: user.nomer_telepon,
+    jenis_kelamin: user.jenis_kelamin,
+  }, process.env.SECRET_KEY, { expiresIn: '1d' });
+};
+
 export const userLogin = async (req, res) => {
   const { email, password } = req.body;
   try {
-    const userResult = await query("SELECT * FROM users WHERE email = ?", [
-      email,
-    ]);
+    const userResult = await query("SELECT * FROM users WHERE email = ?", [email]);
 
     if (userResult.length === 0) {
       return res.status(404).json({ msg: "Email tidak ditemukan" });
@@ -48,24 +60,11 @@ export const userLogin = async (req, res) => {
       return res.status(400).json({ msg: "Password salah" });
     }
 
-    const token = jwt.sign(
-      {
-        userId: user.id,
-        email: user.email,
-        role: user.role,
-        nama_lengkap: user.nama_lengkap,
-        uuid: user.uuid,
-        umur: user.umur,
-        tanggal_lahir: user.tanggal_lahir,
-        nomer_telepon: user.nomer_telepon,
-        jenis_kelamin: user.jenis_kelamin,
-      },
-      process.env.SECRET_KEY
-    );
+    const token = issueToken(user); 
 
     req.session.userId = user.id;
 
-    return res.status(200).json({ msg: "Login berhasil", token });
+    return res.status(200).json({ msg: "Login berhasil", token, user });
   } catch (error) {
     console.log("Terjadi kesalahan:", error);
     return res.status(500).json({ msg: "Terjadi kesalahan pada server" });
