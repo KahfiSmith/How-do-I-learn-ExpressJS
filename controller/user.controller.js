@@ -32,7 +32,7 @@ export const userRegistration = async (req, res) => {
 
 const issueToken = (user) => {
   return jwt.sign({
-    userId: user.uuid,
+    id_user: user.id_user,
     email: user.email,
     role: user.role,
     nama_lengkap: user.nama_lengkap,

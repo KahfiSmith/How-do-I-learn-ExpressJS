@@ -3,6 +3,7 @@ import cors from "cors";
 import { Connection } from "../database/db.js";
 import userRouter from "../routes/user.route.js";
 import profileRouter from "../routes/profile.route.js";
+import forumRouter from "../routes/forum.route.js";
 import path from 'path';
 import dotenv from "dotenv";
 import session from 'express-session';
@@ -28,6 +29,7 @@ app.get("/", (req, res) => {
 });
 app.use('/api', userRouter);
 app.use('/api', profileRouter);
+app.use('/api', forumRouter);
 
 const __dirname = path.resolve();
 app.use(express.static(path.join(__dirname, 'client/build')));
