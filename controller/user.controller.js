@@ -41,6 +41,9 @@ const issueToken = (user) => {
     tanggal_lahir: user.tanggal_lahir,
     nomer_telepon: user.nomer_telepon,
     jenis_kelamin: user.jenis_kelamin,
+    spesialis: user.spesialis,
+    biografi: user.biografi,
+    pengalaman: user.pengalaman,
   }, process.env.SECRET_KEY, { expiresIn: '1d' });
 };
 

@@ -21,10 +21,11 @@ export const addForum = async (req, res) => {
 export const getForum = async (req, res) => {
   try {
     const result = await query(
-      "SELECT forums.*, users.nama_lengkap FROM forums JOIN users ON forums.id_user = users.id_user"
+      "SELECT forums.*, users.nama_lengkap FROM forums JOIN users ON forums.id_user = users.id_user ORDER BY forums.created_at DESC"
     );
     res.json({ msg: "Data ditemukan", data: result });
   } catch (e) {
     res.status(500).json({ msg: e.message });
   }
 };
+
