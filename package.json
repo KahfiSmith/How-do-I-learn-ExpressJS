@@ -8,11 +8,6 @@
     "test": "jest",
     "dev": "nodemon ./src/index.js"
   },
-  "jest": {
-    "transform": {
-      "^.+\\.[t|j]sx?$": "babel-jest"
-    }
-  },
   "keywords": [],
   "author": "",
   "license": "ISC",
