@@ -9,6 +9,30 @@ export const getConsultanById = async (req, res) => {
     }
 }
 
+export const getListConsultation = async (req, res) => {
+    try {
+      const { id_psikolog } = req.params;
+  
+      const result = await query(
+        `
+          SELECT 
+            c.tanggal, 
+            c.kategori,
+            c.hipotesis,
+            u.nama_lengkap AS nama_lengkap
+          FROM konsultans c
+          JOIN users u ON c.id_pasien = u.id_user
+          WHERE c.id_psikolog = ?
+        `,
+        [id_psikolog]
+      );
+  
+      res.json({ msg: "Data ditemukan", data: result });
+    } catch (e) {
+      res.status(500).json({ msg: e.message });
+    }
+  };
+
 export const addConsultation = async (req, res) => {
     const { id_pasien, id_psikolog, tanggal, hipotesis, kategori, catatan, simpulan, simpulann } = req.body;
 
