@@ -7,6 +7,7 @@ import userRouter from "../routes/user.route.js";
 import profileRouter from "../routes/profile.route.js";
 import forumRouter from "../routes/forum.route.js";
 import consultanRouter from "../routes/consultan.route.js";
+import riwayatRouter from "../routes/riwayat.route.js";
 import path from 'path';
 import dotenv from "dotenv";
 import session from 'express-session';
@@ -41,6 +42,7 @@ app.use('/api', userRouter);
 app.use('/api', profileRouter);
 app.use('/api', forumRouter);
 app.use('/api', consultanRouter);
+app.use('/api', riwayatRouter);
 
 io.on('connection', socket => {
   console.log('A user connected');

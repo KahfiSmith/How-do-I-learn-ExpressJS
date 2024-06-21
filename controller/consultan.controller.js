@@ -12,7 +12,7 @@ export const getConsultanById = async (req, res) => {
 export const addConsultation = async (req, res) => {
     const { id_pasien, id_psikolog, tanggal, hipotesis, kategori, catatan, simpulan, simpulann } = req.body;
 
-    if (!id_pasien || !id_psikolog || !tanggal || !hipotesis || !kategori || !catatan || !simpulan || !simpulann) {
+    if (!id_pasien || !id_psikolog || !tanggal || !hipotesis || !kategori || !catatan) {
         return res.status(400).json({ success: false, message: 'Semua field harus diisi.' });
     }
 
