@@ -4,6 +4,6 @@ import { getDetailRiwayat, getRiwayatById } from "../controller/riwayat-user.con
 const router = express.Router();
 
 router.get("/get-riwayat/:id_pasien", getRiwayatById);
-router.get("/get-detail-riwayat/:id_pasien/:id_psikolog", getDetailRiwayat);
+router.get("/get-detail-riwayat/:id_konsultasi", getDetailRiwayat);
 
 export default router;

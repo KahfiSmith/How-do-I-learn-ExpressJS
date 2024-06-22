@@ -8,6 +8,7 @@ export const getRiwayatById = async (req, res) => {
       `
         SELECT 
           c.tanggal, 
+          c.id_konsultasi,
           u.nama_lengkap AS nama_lengkap
         FROM konsultans c
         JOIN users u ON c.id_psikolog = u.id_user
@@ -24,22 +25,28 @@ export const getRiwayatById = async (req, res) => {
 
 export const getDetailRiwayat = async (req, res) => {
   try {
-    const { id_pasien, id_psikolog } = req.params;
+    const { id_konsultasi } = req.params;
 
     const selectQuery = `
           SELECT 
             k.tanggal,
             pasien.nama_lengkap AS nama_pasien,
-            psikolog.nama_lengkap AS nama_psikolog
+            psikolog.nama_lengkap AS nama_psikolog,
+            k.hipotesis,
+            k.kategori,
+            k.catatan,
+            k.simpulan,
+            k.simpulann,
+            k.nomor_konsultasi
           FROM konsultans k
-          JOIN users pasien ON k.id_pasien = pasien.id_user AND pasien.role = 'pasien'
-          JOIN users psikolog ON k.id_psikolog = psikolog.id_user AND psikolog.role = 'psikolog'
-          WHERE k.id_pasien = ? AND k.id_psikolog = ?
+          JOIN users pasien ON k.id_pasien = pasien.id_user
+          JOIN users psikolog ON k.id_psikolog = psikolog.id_user
+          WHERE k.id_konsultasi = ?
         `;
-    const result = await query(selectQuery, [id_pasien, id_psikolog]);
+    const result = await query(selectQuery, [id_konsultasi]);
 
     if (result.length > 0) {
-      res.json({ msg: "Data ditemukan", data: result });
+      res.json({ msg: "Data ditemukan", data: result[0] });
     } else {
       res.status(404).json({ msg: "Data tidak ditemukan" });
     }
@@ -48,3 +55,4 @@ export const getDetailRiwayat = async (req, res) => {
     res.status(500).json({ msg: error.message });
   }
 };
+
