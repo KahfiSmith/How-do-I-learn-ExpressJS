@@ -1,7 +1,6 @@
 import express from "express";
 import cors from "cors";
 import http from 'http';
-import { Server as SocketIOServer } from 'socket.io';
 import { Connection } from "../database/db.js";
 import userRouter from "../routes/user.route.js";
 import profileRouter from "../routes/profile.route.js";
@@ -15,12 +14,6 @@ dotenv.config();
 
 const app = express();
 const server = http.createServer(app);
-const io = new SocketIOServer(server, {
-  cors: {
-    origin: 'http://localhost:5173',
-    credentials: true
-  }
-});
 
 app.use(cors({
   credentials: true,
@@ -43,18 +36,6 @@ app.use('/api', profileRouter);
 app.use('/api', forumRouter);
 app.use('/api', consultanRouter);
 app.use('/api', riwayatRouter);
-
-io.on('connection', socket => {
-  console.log('A user connected');
-
-  socket.on('sendMessage', data => {
-    io.emit('receiveMessage', data);
-  });
-
-  socket.on('disconnect', () => {
-    console.log('User disconnected');
-  });
-});
 
 const __dirname = path.resolve();
 app.use(express.static(path.join(__dirname, 'client/build')));
